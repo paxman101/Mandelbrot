@@ -4,3 +4,6 @@
 [submodule "glad"]
 	path = glad
 	url = git@github.com:Dav1dde/glad.git
+[submodule "glm"]
+	path = glm
+	url = git@github.com:g-truc/glm.git
