@@ -8,10 +8,8 @@
 
 #include <glm/glm.hpp>
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <GLFW/glfw3.h>
-
-#define PATH "/home/paxman101/CLionProjects/Mandelbrot"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
@@ -79,9 +77,10 @@ GLFWwindow* glInit() {
     }
     glfwMakeContextCurrent(window);
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    int version = gladLoadGL(glfwGetProcAddress);
+    if (version == 0) {
         std::cout << "Failed to initialize GLAD" << std::endl;
-
+        std::exit(-1);
     }
 
     glViewport(0, 0, 800, 600);
@@ -98,7 +97,7 @@ float map (float s, float a1, float a2, float b1, float b2) {
 
 int main() {
     GLFWwindow* window = glInit();
-    Shader ourShader(PATH "/shaders/shader.vs", PATH "/shaders/shader.fs");
+    Shader ourShader(SOURCE_PATH"/shaders/shader.vs", SOURCE_PATH"/shaders/shader.fs");
 
 //    unsigned int test = ourShader.generateTexture(PATH "/test.jpg");
 
@@ -147,11 +146,11 @@ int main() {
     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     int width, height, nrChannels;
-    unsigned char *data = stbi_load(PATH "/pal.png", &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load(SOURCE_PATH"/pal.png", &width, &height, &nrChannels, 0);
     if (data)
         glTexImage1D(GL_TEXTURE_1D, 0, GL_RGB, width, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
     else
-        std::cout << "FAILED TO FUCKING LOAD TEXTURE" << std::endl;
+        std::cout << "Failed to load texture :)" << std::endl;
     stbi_image_free(data);
     float vertices[] = {
             1.0f, 1.0f, 0.0f, 1.0f, 1.0f,        // top right

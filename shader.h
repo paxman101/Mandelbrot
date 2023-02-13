@@ -5,7 +5,7 @@
 #ifndef UNTITLED_SHADER_H
 #define UNTITLED_SHADER_H
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 
 #include "stb_image.h"
 
@@ -13,7 +13,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#import <iterator>
+#include <iterator>
 
 class Shader {
 public:
@@ -45,7 +45,7 @@ public:
             fragmentCode = fShaderStream.str();
         }
 
-        catch (std::ifstream::failure e) {
+        catch (std::ifstream::failure &e) {
             std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
         }
         const char *vShaderCode = vertexCode.c_str();
