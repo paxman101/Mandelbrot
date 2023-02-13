@@ -5,9 +5,12 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Mandelbrot main.cpp shader.h)
 
-include_directories("/usr/include/GLFW" , "/usr/include/glm")
-target_link_libraries(Mandelbrot glfw)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(glfw/)
 
-add_library("glad" "/usr/src/glad.c")
-target_include_directories("glad" PRIVATE "/usr/include")
-target_link_libraries(Mandelbrot "glad" ${CMAKE_DL_LIBS})
+add_subdirectory(glad/cmake)
+glad_add_library(glad_gl_core33 SHARED API gl:core=3.3)
+
+target_link_libraries(Mandelbrot ${GLEW_LIBRARIES} glfw glad_gl_core33)
